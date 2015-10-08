@@ -38,6 +38,15 @@ sap.ui.define([
 				},
 
 				handleTaskCheckboxPress : function(oEvent) {
+					var self = this;
+					
+					var oListItem = oEvent.getParameter("listItem");
+					var sPath = oListItem.getBindingContext().getPath();
+					var task = this.getView().getModel().getProperty(sPath);
+					
+					Rest.put("./api/tasklist/" + this._iSelectedTasklistId + "/task/" + task.id, task, function() {
+						self.getOwnerComponent().refreshData();
+					});
 				},
 				
 				handleToolbarAddTaskPress : function(oEvent) {

@@ -9,7 +9,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import com.sap.security.um.service.UserManagementAccessor;
 import com.sap.security.um.user.PersistenceException;
 import com.sap.security.um.user.UserProvider;
-
+import com.sap.todo.dao.TaskDAO;
+import com.sap.todo.dao.TaskListDAO;
 
 public class Application extends ResourceConfig {
 
@@ -19,7 +20,6 @@ public class Application extends ResourceConfig {
 		this.applicationRootPackage = this.getClass().getPackage().getName();
 		registerEndpoints();
 		registerDependecyInjection();
-		myMain();
 	}
 
 	private void registerEndpoints() {
@@ -38,6 +38,8 @@ public class Application extends ResourceConfig {
 				bindFactory(EMFactory.class).to(EntityManager.class).in(RequestScoped.class);
 
 				// DAOs
+				bind(TaskDAO.class).to(TaskDAO.class).in(RequestScoped.class);
+				bind(TaskListDAO.class).to(TaskListDAO.class).in(RequestScoped.class);
 			}
 
 		});
@@ -49,34 +51,5 @@ public class Application extends ResourceConfig {
 		} catch (PersistenceException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	private void myMain() {
-		/*
-		EntityManager em = EMFactory.getEntityManagerFactory().createEntityManager();		
-		
-		TaskDAO taskDAO = new TaskDAO();
-		taskDAO.setEntityManager(em);
-		
-		TaskListDAO taskListDAO = new TaskListDAO();
-		taskListDAO.setEntityManager(em);
-		
-		Tasklist tasklist = new Tasklist();
-		tasklist.setName("Shopping");
-		tasklist.setId(99);
-		taskListDAO.persist(tasklist);
-		
-		Task task = new Task();
-		task.setId(100);
-		task.setTaskList(tasklist);
-		task.setDescription("Buy Milk");
-		tasklist.getTasks().add(task);
-		taskDAO.persist(task);
-		
-		Task searchedTask = taskDAO.findTaskByListIdAndTaskId(99, 100);
-		boolean done = searchedTask.isDone();
-		
-		em.close();
-		*/
 	}
 }

@@ -5,7 +5,22 @@
 		xmlns:footerbar="sap.ushell.ui.footerbar">
 
 		<Page title="{name}">
-	
+
+		<IconTabBar>
+			<items>
+				<IconTabFilter text="{i18n>openIconText}" icon="sap-icon://inbox">
+					<List id="openTaskList" mode="MultiSelect" items="{tasks}" selectionChange="handleTaskCheckboxPress" includeItemInSelection="true">
+						<StandardListItem title="{description}" selected="{done}" visible="{=!${done}}" />
+					</List>
+				</IconTabFilter>
+				<IconTabFilter text="{i18n>doneIconText}" icon="sap-icon://accept">
+					<List id="doneTaskList" mode="MultiSelect" items="{tasks}" selectionChange="handleTaskCheckboxPress" includeItemInSelection="true">
+						<StandardListItem title="{description}" selected="{done}" visible="{done}" />
+					</List>
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+		
 		<footer>
 			<Bar>
 				<contentLeft>
