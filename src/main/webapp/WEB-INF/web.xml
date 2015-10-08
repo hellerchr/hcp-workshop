@@ -1,0 +1,55 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>Servlet 3.0 Web Application</display-name>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- rest -->
+	<servlet>
+		<servlet-name>JerseyContainer</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.sap.todo.Application</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JerseyContainer</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- jndi resources -->
+	<resource-ref>
+		<res-ref-name>jdbc/DefaultDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<!-- security -->
+	<login-config>
+		<auth-method>FORM</auth-method>
+	</login-config>
+
+	<!-- constraints (secured areas) -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Protected Area</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Everyone</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<!-- roles -->
+	<security-role>
+		<description>All SAP HANA Cloud Platform users</description>
+		<role-name>Everyone</role-name>
+	</security-role>
+
+</web-app>

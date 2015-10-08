@@ -1,0 +1,153 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.sap</groupId>
+	<artifactId>todo</artifactId>
+	<packaging>war</packaging>
+	<name>Cloud TODO</name>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<!-- hcp deployment -->
+		<hcp.account>${env.HCP_ACCOUNT}</hcp.account>
+		<hcp.user>${env.HCP_USER}</hcp.user>
+		<hcp.password>${env.HCP_PASSWORD}</hcp.password>
+		<hcp.host>hanatrial.ondemand.com</hcp.host>
+		<hcp.runtime>neo-java-web</hcp.runtime>
+
+		<!-- versions -->
+		<hcp.version>2.32.11</hcp.version>
+		<java.version>1.7</java.version>
+		<jersey.version>2.21</jersey.version>
+		<junit.version>4.12</junit.version>
+		<eclipselink.version>2.6.0</eclipselink.version>
+		<jpa.version>2.1.0</jpa.version>
+		<derby.version>10.11.1.1</derby.version>
+		<maven.version>3.3</maven.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- jersey bom -->
+			<dependency>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- hana cloud -->
+		<dependency>
+			<groupId>com.sap.cloud</groupId>
+			<artifactId>neo-java-web-api</artifactId>
+			<version>${hcp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- websockets -->
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- jersey (jaxrs, jaxb) -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+		</dependency>
+		<!-- eclipselink -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>${eclipselink.version}</version>
+		</dependency>
+		<!-- jpa api -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version>${jpa.version}</version>
+		</dependency>
+		<!-- derby -->
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>${derby.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<version>${derby.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+
+		<pluginManagement>
+			<plugins>
+				<!-- disable maven artifact deploy -->
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- maven compile plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.version}</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<!-- hcp maven deploy plugin -->
+			<plugin>
+				<groupId>com.sap.cloud</groupId>
+				<artifactId>neo-java-web-maven-plugin</artifactId>
+				<version>${hcp.version}</version>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<goals>
+							<goal>install-sdk</goal>
+							<!-- <goal>hot-update</goal> -->
+							<goal>deploy</goal>
+							<goal>restart</goal>
+						</goals>
+						<configuration>
+							<sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+							<host>${hcp.host}</host>
+							<user>${hcp.user}</user>
+							<password>${hcp.password}</password>
+							<account>${hcp.account}</account>
+							<application>${project.artifactId}</application>
+							<source>${project.build.directory}/${project.build.finalName}.war</source>
+							<runtime>${hcp.runtime}</runtime>
+							<runtimeVersion>${hcp.version}</runtimeVersion>
+							<strategy>restart-runtime</strategy>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

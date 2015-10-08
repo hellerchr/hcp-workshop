@@ -1,0 +1,22 @@
+<mvc:View
+		controllerName="com.sap.todo.view.Detail"
+		xmlns="sap.m"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:footerbar="sap.ushell.ui.footerbar">
+
+		<Page title="{name}">
+	
+		<footer>
+			<Bar>
+				<contentLeft>
+					<Button icon="sap-icon://add" press="handleToolbarAddTaskPress" />
+				</contentLeft>
+				<contentRight>
+				    <Button icon="sap-icon://action" press="handleToolbarActionPress" />
+				</contentRight>
+			</Bar>
+		</footer>
+
+</Page>
+
+</mvc:View>

@@ -1,0 +1,16 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog title="{i18n>addTasklist}">
+        <Label text="{i18n>taskListName}"></Label>
+        <Input value="{/newTasklistName}"></Input>
+        <Label text="{i18n>icon}"></Label>
+        <List items="{global>/icons}" selectionChange="handleAddTasklistIconSelectionChange" mode="SingleSelect" includeItemInSelection="true">
+            <StandardListItem icon="{global>url}" title="{= ${global>url}.replace('sap-icon://','')}"/>
+        </List>
+        <buttons>
+            <Button text="{i18n>ok}" press="handleAddTasklistDialogOkPress"></Button>
+            <Button text="{i18n>cancel}" press="handleAddTasklistDialogCancelPress"></Button>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

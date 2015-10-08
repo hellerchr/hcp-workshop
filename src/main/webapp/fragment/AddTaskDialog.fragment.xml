@@ -1,0 +1,12 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog title="{i18n>addTask}">
+        <Label text="{i18n>taskDescription}"></Label>
+        <Input value="{/newTaskDescription}"></Input>
+        <buttons>
+            <Button text="{i18n>ok}" press="handleAddTaskDialogOkPress"></Button>
+            <Button text="{i18n>cancel}" press="handleAddTaskDialogCancelPress"></Button>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

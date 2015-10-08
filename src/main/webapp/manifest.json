@@ -1,0 +1,95 @@
+{
+	"_version": "1.1.0",
+
+	"sap.app": {
+		"_version": "1.1.0",
+		"id": "com.sap.todo",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+
+		"applicationVersion": {
+			"version": "1.0.0"
+		}
+	},
+
+	"sap.ui": {
+		"_version": "1.1.0",
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_bluecrystal"
+		]
+	},
+
+	"sap.ui5": {
+		"_version": "1.1.0",
+		"rootView": "com.sap.todo.view.App",
+
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.m": {}
+			}
+		},
+
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.sap.todo.i18n.i18n"
+				}
+			}
+		},
+
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "com.sap.todo.view",
+				"controlId": "idAppControl",
+				"controlAggregation": "detailPages",
+				"bypassed": {
+					"target": ["master", "notFound"]
+				}
+			},
+
+			"routes": [
+				{
+					"pattern": "",
+					"name": "master",
+					"target": ["object", "master"]
+				},
+				{
+					"pattern": "list/{id}",
+					"name": "object",
+					"target": ["master", "object"]
+				}
+			],
+
+			"targets": {
+				"master": {
+					"viewName": "Master",
+					"viewLevel": 1,
+					"viewId": "master",
+					"controlAggregation": "masterPages"
+				},
+				"object": {
+					"viewName": "Detail",
+					"viewId": "detail",
+					"viewLevel": 2
+				}
+			}
+		}
+	}
+}

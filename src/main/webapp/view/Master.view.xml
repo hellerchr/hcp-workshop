@@ -1,0 +1,33 @@
+<mvc:View 
+	controllerName="com.sap.todo.view.Master" 
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core" 
+	xmlns="sap.m" 
+	xmlns:semantic="sap.m.semantic">
+
+	<Page title="{i18n>masterTitle}">
+	
+		<List id="list" items="{/lists}" selectionChange="handleListSelectionChange" mode="SingleSelectMaster">
+			<items>
+				<ObjectListItem
+						selectionChange="onSelectionChange"
+						title="{name}"
+						selected="{= ${global>/selectedTasklistId} === ${id}}"
+						icon="{icon}"
+						number="{path: 'tasks', formatter: '.formatOpenTaskCount'}"
+						numberUnit="{i18n>openTasks}">
+				</ObjectListItem>
+			</items>
+		</List>
+		
+        <footer>
+            <Bar>
+                <contentRight>
+                    <Button icon="sap-icon://add" press="handleToolbarAddTasklistPress" />
+                </contentRight>
+            </Bar>
+        </footer>
+
+	</Page>
+	
+</mvc:View>

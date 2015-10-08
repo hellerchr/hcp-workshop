@@ -1,0 +1,10 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <ActionSheet placement="Top">
+        <buttons>
+            <Button text="{i18n>deleteDoneTasks}" icon="sap-icon://delete" press="handleActionSheetDeleteDoneTasksPress"/>
+            <Button text="{i18n>deleteList}" icon="sap-icon://delete" press="handleActionSheetDeleteListPress"/>
+        </buttons>
+    </ActionSheet>
+</core:FragmentDefinition>
